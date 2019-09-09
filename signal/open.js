@@ -1,5 +1,5 @@
 const mqtt = require('mqtt');
-const rpio = require('rpio');
+const exec = require('child_process').exec;
 
 const client = mqtt.connect('mqtt://localhost:1883');
 
@@ -9,17 +9,12 @@ client.on('message', (topic, message) => {
   const msg = message.toString();
   if(msg === 'open'){
       console.log('Enviar um', msg);
-      sign(4);
-      console.log('Enviar um', msg);
+      exec('python open.py',
+        function (error, stdout, stderr) {
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            }
+      });
   }
 })
 
-function sign(pin) {
-  rpio.open(pin, rpio.OUTPUT, rpio.LOW);
-  rpio.write(12, rpio.HIGH);
-  rpio.sleep(1);
-
-  /* Off for half a second (500ms) */
-  rpio.write(12, rpio.LOW);
-  rpio.msleep(500);
-}
