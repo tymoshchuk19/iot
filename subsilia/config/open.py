@@ -1,11 +1,8 @@
 from gpiozero import LED
 from time import sleep
 
-led = LED(4)
+campainha = LED(4)
 
-s = 1;
+campainha.on()
 
-while s:
-    led.on()
-    sleep(1)
-    s = 0;
+print('$$ Python open')
