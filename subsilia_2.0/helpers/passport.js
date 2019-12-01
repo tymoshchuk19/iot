@@ -1,6 +1,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var users = require('../controllers/users');
+var bcrypt = require('bcrypt');
 
 //Configuração da estrategia local
 passport.use(new LocalStrategy(
@@ -9,8 +10,15 @@ passport.use(new LocalStrategy(
       users.consultar(email)
         .then(user => {
           if(!user) { return done(null, false, { message: 'Credenciais inválidas!\n' }) }
-          if(password != user.password) { return done(null, false, {message: 'Credenciais inválidas!\n'})}
-          return done(null, user)
+          // Match password
+          bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (err) throw err;
+            if (isMatch) {
+              return done(null, user);
+            } else {
+              return done(null, false, {message: 'Credenciais inválidas!\n'});
+            }
+          })
         })
         .catch(erro => done(erro))
     }

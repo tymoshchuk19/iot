@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Users = require('../controllers/users')
 var passport = require('passport');
+var bcrypt = require('bcrypt');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -16,9 +17,16 @@ router.get('/login', function(req, res, next) {
 
 /* POST registation form. */
 router.post('/register', function(req, res, next) {
-  Users.inserir(req.body)
-    .then((dados) => res.render('login-form'))
-    .catch((erro) => res.send(erro));
+  var user = req.body;
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) throw err;
+      user.password = hash;
+      Users.inserir(user)
+        .then((dados) => res.render('login-form'))
+        .catch((erro) => res.send(erro));
+    })
+  });
 });
 
 /* POST registation form. */

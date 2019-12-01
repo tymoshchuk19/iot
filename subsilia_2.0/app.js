@@ -26,8 +26,7 @@ app.set('view engine', 'pug');
 
 app.use(session({
   cookie: {
-    maxAge: null,
-    expires: false
+    maxAge: 9000000
   },
   store: new FileStore(),
   secret: 'first secret',
