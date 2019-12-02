@@ -5,9 +5,9 @@ var bcrypt = require('bcrypt');
 
 //Configuração da estrategia local
 passport.use(new LocalStrategy(
-    { usernameField:'email' },
-    (email,password, done) => { 
-      users.consultar(email)
+    { usernameField:'username' },
+    (username,password, done) => { 
+      users.consultar(username)
         .then(user => {
           if(!user) { return done(null, false, { message: 'Credenciais inválidas!\n' }) }
           // Match password

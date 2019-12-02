@@ -10,9 +10,9 @@ Users.listar = () => {
 }
 
 //Devolve User pelo email
-Users.consultar = email => {
+Users.consultar = username => {
     return User
-        .findOne({ email: email })
+        .findOne({$or: [{ email: username}, { username: username }]})
         .exec();
 }
 

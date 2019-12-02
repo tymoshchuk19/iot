@@ -4,8 +4,20 @@ block content
   .w3-container.w3-center
     header.w3-light-gray 
       h1 Quarto B Management
-    ul.w3-ul
-      li  
-        a.w3-button.w3-light-gray(href="http://quatrobs.hopto.org/campainha/open") Open
+      nav.w3-bar
+        a.w3-bar-item.w3-button.w3-light-gray(href="http://quatrobs.hopto.org/logout") Logout
+        a.w3-bar-item.w3-button.w3-light-gray(href="http://localhost:8819/campainha/open") Open
+    table.w3-table.w3-hoverable
+        tr
+            th Device
+            th Description
+            th Timestamp
+            th User
+        each i in list
+            tr
+                td= i.device
+                td= i.description
+                td= i.timestamp
+                td= i.user
     footer.w3-light-gray
       p Welcome to my second version!!!

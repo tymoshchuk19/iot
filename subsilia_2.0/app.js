@@ -9,6 +9,7 @@ const passport = require('passport');
 const strategy = require('./helpers/passport');
 const session = require('express-session');
 var FileStore = require('session-file-store')(session);
+var uuid = require('uuid');
 
 mongoose.connect(mongoadr, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(()=> console.log('Mongo connection ready. State: ' + mongoose.connection.readyState))
@@ -25,9 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(session({
-  cookie: {
-    maxAge: 9000000
-  },
+  genid: req => { return uuid() },
   store: new FileStore(),
   secret: 'first secret',
   saveUninitialized: true,

@@ -3,6 +3,7 @@ var router = express.Router();
 const Users = require('../controllers/users')
 var passport = require('passport');
 var bcrypt = require('bcrypt');
+var { isLogged } = require('../helpers/passport');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -32,7 +33,7 @@ router.post('/register', function(req, res, next) {
 /* POST registation form. */
 router.post('/login', passport.authenticate('local',
                         {
-                          successRedirect: '/users/homepage',
+                          successRedirect: '/users/dashboard',
                           failureRedirect: '/login'
                         })
 );
@@ -40,6 +41,12 @@ router.post('/login', passport.authenticate('local',
 /* GET registation page. */
 router.get('/register', function(req, res, next) {
   res.render('registration-form');
+});
+
+// Logout
+router.get('/logout', isLogged, (req, res) => {
+  req.logout();
+  res.redirect('/');
 });
 
 module.exports = router;
