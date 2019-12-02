@@ -12,9 +12,14 @@ router.get('/open', isLogged, function(req, res, next) {
     timestamp: new Date(),
     user: req.user.email
   };
+  
   mqtt.open();
   instructions.inserir(newInstruction)
-    .then(dados => res.render('dashboard'))
+    .then(dados => {
+      instructions.listar()
+        .then(data => res.render('dashboard', { list: data }))
+        .catch(erro => res.send(erro));
+    })
     .catch(erro => res.send(erro));
 });
 
