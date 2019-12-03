@@ -4,10 +4,15 @@ const Users = require('../controllers/users')
 var passport = require('passport');
 var bcrypt = require('bcrypt');
 var { isLogged } = require('../helpers/passport');
+var instructions = require('../controllers/instructions');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  if(req.isAuthenticated()) 
+    instructions.listar()
+      .then(data => res.render('dashboard', { list: data.reverse() }))
+      .catch(error => res.send(error));
+  else res.render('index');
 });
 
 
