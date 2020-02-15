@@ -1,5 +1,5 @@
 # iot
 
-Subsilia -> is webserver that recieves http requests.
+Subsilia -> it's webserver that recieves http requests.
 
-Signal -> is a program thats is runing on the pi subscribing a mqtt server. 
+Signal -> it's a program thats is runing on the api subscribing a mqtt server. 
